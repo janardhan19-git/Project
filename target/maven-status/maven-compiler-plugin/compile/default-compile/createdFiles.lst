@@ -1,0 +1,4 @@
+com\example\taskmanager\controller\TaskController.class
+com\example\taskmanager\model\Task.class
+com\example\taskmanager\TaskManagerApplication.class
+com\example\taskmanager\repository\TaskRepository.class
