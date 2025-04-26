@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        DOCKER_REGISTRY = "54.242.130.89:8081/repository/docker-hosted"
+        DOCKER_REGISTRY = "https://54.242.130.89:8081/repository/docker-hosted"  // Change to HTTPS
         IMAGE_NAME = "backend-app"
         IMAGE_TAG = "${BUILD_NUMBER}"    // 🔥 Corrected expansion
         KUBE_MANIFEST_REPO = "https://github.com/tupakulamanoj/kube-manifests.git"
@@ -30,7 +30,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'nexus-creds', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
                     // Secure handling of NEXUS_PASS using Groovy escape
                     sh """
-                        echo \$NEXUS_PASS |  docker login ${DOCKER_REGISTRY} -u \$NEXUS_USER --password-stdin
+                        echo \$NEXUS_PASS | docker login ${DOCKER_REGISTRY} -u \$NEXUS_USER --password-stdin
                         sudo docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
                     """
                 }
