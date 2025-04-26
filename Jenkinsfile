@@ -6,7 +6,7 @@ pipeline {
     }
     
     environment {
-        DOCKER_REGISTRY = "18.144.14.181:8081/repository/docker-hosted"
+        DOCKER_REGISTRY = "54.242.130.89:8081/repository/docker-hosted"
         IMAGE_NAME = "backend-app"
         IMAGE_TAG = "\${BUILD_NUMBER}"
         KUBE_MANIFEST_REPO = "https://github.com/yourusername/kube-manifests.git"
