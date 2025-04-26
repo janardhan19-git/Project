@@ -28,8 +28,11 @@ pipeline {
         stage('Docker Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'nexus-creds', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
-                    sh "echo ${NEXUS_PASS} | docker login ${DOCKER_REGISTRY} -u ${NEXUS_USER} --password-stdin"
-                    sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+                    // Secure handling of NEXUS_PASS using Groovy escape
+                    sh """
+                        echo \$NEXUS_PASS | sudo docker login ${DOCKER_REGISTRY} -u \$NEXUS_USER --password-stdin
+                        sudo docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
+                    """
                 }
             }
         }
