@@ -21,7 +21,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh "sudo docker build -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} ."
+                sh "docker build -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} ."
             }
         }
 
@@ -29,7 +29,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'nexus-creds', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
                     sh "echo ${NEXUS_PASS} | sudo docker login ${DOCKER_REGISTRY} -u ${NEXUS_USER} --password-stdin"
-                    sh "sudo docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
                 }
             }
         }
