@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
         // Nexus Docker registry (HTTP on 8082)
-        DOCKER_REGISTRY = "54.242.130.89:8082"  // Must use 8082 (Docker connector port)
+        DOCKER_REGISTRY = "54.242.130.89:8081"  // Must use 8082 (Docker connector port)
         DOCKER_REPO = "docker-hosted"  // Changed to match your deployment.yaml
         IMAGE_NAME = "backend-app"
         IMAGE_TAG = "${BUILD_NUMBER}"
