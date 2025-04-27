@@ -4,7 +4,7 @@ pipeline {
         maven 'Maven'
     }
     environment {
-        DOCKER_REGISTRY = "54.242.130.89:8082"  // Nexus HTTP port
+        DOCKER_REGISTRY = "3.89.105.109:8082"  // Nexus HTTP port
         DOCKER_REPO = "backend-app"              // Correct repo name
         IMAGE_NAME = "backend-app"
         IMAGE_TAG = "${BUILD_NUMBER}"
