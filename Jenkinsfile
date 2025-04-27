@@ -38,20 +38,23 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'github-creds', variable: 'GITHUB_TOKEN')]) {
                     script {
-                        // Check if the repo already exists and delete it if necessary
                         sh """
                             if [ -d "kube-manifests" ]; then
                                 rm -rf kube-manifests
                             fi
-                            git clone https://github.com/tupakulamanoj/kube-manifests.git kube-manifests
+                            
+                            # Use the token for the initial clone
+                            git clone https://\${GITHUB_TOKEN}@github.com/tupakulamanoj/kube-manifests.git
+                            
                             cd kube-manifests
                             sed -i 's|image: .*|image: ${DOCKER_REGISTRY}/${DOCKER_REPO}/${IMAGE_NAME}:${IMAGE_TAG}|g' deployment.yaml
                             git config user.email "manojthupakula06080@gmail.com"
                             git config user.name "tupakulamanoj"
-                            git remote set-url origin https://tupakulamanoj:${GITHUB_TOKEN}@github.com/tupakulamanoj/kube-manifests.git
+                            
+                            # Using the token directly in the push command
                             git add deployment.yaml
                             git commit -m "Update image to ${IMAGE_TAG}"
-                            git push origin main
+                            git push https://\${GITHUB_TOKEN}@github.com/tupakulamanoj/kube-manifests.git main
                         """
                     }
                 }
