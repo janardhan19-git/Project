@@ -36,7 +36,7 @@ pipeline {
         }
         stage('Update Kubernetes Manifest') {
             steps {
-                withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+                withCredentials([string(credentialsId: 'github-creds', variable: 'GITHUB_TOKEN')]) {
                     sh """
                         git clone https://github.com/tupakulamanoj/kube-manifests.git kube-manifests
                         cd kube-manifests
