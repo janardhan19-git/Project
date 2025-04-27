@@ -8,7 +8,7 @@ pipeline {
         DOCKER_REPO = "backend-app"              // Correct repo name
         IMAGE_NAME = "backend-app"
         IMAGE_TAG = "${BUILD_NUMBER}"
-        KUBE_MANIFEST_REPO = "https://github.com/tupakulamanoj/kube-manifests.git"
+        KUBE_MANIFEST_REPO = "https://github.com/janardhan19-git/kube-manifests.git"
     }
     stages {
         stage('Build') {
@@ -45,11 +45,11 @@ pipeline {
                             fi
 
                             # Clone the repository using GitHub Token for authentication
-                            git clone https://tupakulamanoj:${GITHUB_TOKEN}@github.com/tupakulamanoj/kube-manifests.git kube-manifests
+                            git clone https://janardhan19-git:${GITHUB_TOKEN}@github.com/janardhan19-git/kube-manifests.git kube-manifests
                             cd kube-manifests
                             sed -i 's|image: .*|image: ${DOCKER_REGISTRY}/${DOCKER_REPO}/${IMAGE_NAME}:${IMAGE_TAG}|g' deployment.yaml
-                            git config user.email "manojthupakula06080@gmail.com"
-                            git config user.name "tupakulamanoj"
+                            git config user.email "janardhanatlassian@gmail.com"
+                            git config user.name "janardhan19-git"
 
                             git add deployment.yaml
                             git commit -m "Update image to ${IMAGE_TAG}"
