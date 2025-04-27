@@ -4,7 +4,7 @@ pipeline {
         maven 'Maven'
     }
     environment {
-        DOCKER_REGISTRY = "54.242.130.89:8082"  // ✅ Use 8082 for Docker login/push
+        DOCKER_REGISTRY = "54.242.130.89:8082"  // Correct Nexus Docker registry port (8082)
         IMAGE_NAME = "backend-app"
         IMAGE_TAG = "${BUILD_NUMBER}"
         KUBE_MANIFEST_REPO = "https://github.com/tupakulamanoj/kube-manifests.git"
@@ -27,7 +27,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'nexus-creds', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
                     sh """
                         docker logout ${DOCKER_REGISTRY} || true
-                        echo \$NEXUS_PASS | docker login http://${DOCKER_REGISTRY} -u \$NEXUS_USER --password-stdin
+                        echo \$NEXUS_PASS | docker login --insecure-registry ${DOCKER_REGISTRY} http://${DOCKER_REGISTRY} -u \$NEXUS_USER --password-stdin
                         docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
                     """
                 }
