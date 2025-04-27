@@ -2,5 +2,5 @@ FROM openjdk:11-jdk-slim
 
 WORKDIR /app
 COPY target/*.jar app.jar
-EXPOSE 8090
+EXPOSE 8082
 ENTRYPOINT ["java","-jar","app.jar"]
