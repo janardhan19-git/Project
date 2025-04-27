@@ -11,19 +11,19 @@ pipeline {
         KUBE_MANIFEST_REPO = "https://github.com/janardhan19-git/kube-manifests.git"
     }
     stages {
-        stage('Build') {
+        stage('Build-Stage') {
             steps {
                 sh 'mvn clean package'
             }
         }
-        stage('Docker Build') {
+        stage('Docker') {
             steps {
                 sh """
                     docker build -t ${DOCKER_REGISTRY}/${DOCKER_REPO}/${IMAGE_NAME}:${IMAGE_TAG} .
                 """
             }
         }
-        stage('Docker Push') {
+        stage('Push into Docker') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'nexus-creds', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
                     sh """
@@ -34,7 +34,7 @@ pipeline {
                 }
             }
         }
-        stage('Update Kubernetes Manifest') {
+        stage('Update in Manifest') {
             steps {
                 withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
                     script {
