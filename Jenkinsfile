@@ -4,9 +4,8 @@ pipeline {
         maven 'Maven'
     }
     environment {
-        // Nexus Docker registry (HTTP on 8082)
-        DOCKER_REGISTRY = "54.242.130.89:8081"  // Must use 8082 (Docker connector port)
-        DOCKER_REPO = "docker-hosted"  // Changed to match your deployment.yaml
+        DOCKER_REGISTRY = "54.242.130.89:8081"  // Correct - Nexus HTTP port
+        DOCKER_REPO = "backend-app"             // Correct repo name
         IMAGE_NAME = "backend-app"
         IMAGE_TAG = "${BUILD_NUMBER}"
         KUBE_MANIFEST_REPO = "https://github.com/tupakulamanoj/kube-manifests.git"
