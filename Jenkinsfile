@@ -36,7 +36,7 @@ pipeline {
         }
         stage('Update Kubernetes Manifest') {
             steps {
-                withCredentials([string(credentialsId: 'github-creds', variable: 'GITHUB_TOKEN')]) {
+                withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
                     script {
                         sh """
                             # Check if kube-manifests directory exists, and remove it if it does
