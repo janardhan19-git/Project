@@ -44,7 +44,7 @@ pipeline {
 
         stage('Update Kubernetes Manifest') {
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'github-creds', keyFileVariable: 'SSH_KEY')]) {
+                withCredentials([string(credentialsId: 'github-creds', variable: 'GITHUB_TOKEN')]) {
                     // Clone Kubernetes manifest repository, update the image, and push changes
                     sh """
                         git clone ${KUBE_MANIFEST_REPO} kube-manifests
@@ -52,9 +52,10 @@ pipeline {
                         sed -i "s|image: .*|image: ${DOCKER_REGISTRY}/${DOCKER_REPO}/${IMAGE_NAME}:${IMAGE_TAG}|g" deployment.yaml
                         git config user.email "manojthupakula06080@gmail.com"
                         git config user.name "tupakulamanoj"
+                        git remote set-url origin https://tupakulamanoj:${GITHUB_TOKEN}@github.com/tupakulamanoj/kube-manifests.git
                         git add deployment.yaml
                         git commit -m "Update image to ${IMAGE_TAG}"
-                        GIT_SSH_COMMAND="ssh -i ${SSH_KEY}" git push origin main
+                        git push origin main
                     """
                 }
             }
