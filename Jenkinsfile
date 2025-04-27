@@ -44,7 +44,7 @@ pipeline {
 
         stage('Update Kubernetes Manifest') {
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'github-cred', keyFileVariable: 'SSH_KEY')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'github-creds', keyFileVariable: 'SSH_KEY')]) {
                     // Clone Kubernetes manifest repository, update the image, and push changes
                     sh """
                         git clone ${KUBE_MANIFEST_REPO} kube-manifests
