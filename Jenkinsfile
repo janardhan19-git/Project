@@ -38,13 +38,13 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'github-creds', variable: 'GITHUB_TOKEN')]) {
                     script {
-                        // Ensure the repository directory is empty before cloning
                         sh """
+                            # Check if kube-manifests directory exists, and remove it if it does
                             if [ -d "kube-manifests" ]; then
                                 rm -rf kube-manifests
                             fi
 
-                            // Clone the repository using GitHub Token for authentication
+                            # Clone the repository using GitHub Token for authentication
                             git clone https://tupakulamanoj:${GITHUB_TOKEN}@github.com/tupakulamanoj/kube-manifests.git kube-manifests
                             cd kube-manifests
                             sed -i 's|image: .*|image: ${DOCKER_REGISTRY}/${DOCKER_REPO}/${IMAGE_NAME}:${IMAGE_TAG}|g' deployment.yaml
