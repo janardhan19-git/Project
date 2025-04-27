@@ -36,7 +36,7 @@ pipeline {
         }
         stage('Update Kubernetes Manifest') {
             steps {
-                withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+                withCredentials([string(credentialsId: 'github-creds', variable: 'GITHUB_TOKEN')]) {
                     script {
                         // Check if the repo already exists and delete it if necessary
                         sh """
